@@ -475,6 +475,48 @@ const ZONING_KNOWLEDGE_BASE = {
         }
     },
 
+    "O-C2": {
+        fullName: "Neighbourhood Commercial Overlay Zone",
+        code: "O-C2",
+        article: "Article 6.2",
+        table: "Table 6.8",
+        description: "Neighbourhood Commercial Overlay Zone (O-C2) is a special overlay applicable to existing commercial nodes within residential areas (R1B, R2, R3). It allows small-scale retail commercial activities at ground floor level of residential buildings, subject to OSC approval. It does not create a new zone but modifies the permitted uses of the base zone.",
+
+        uses: {
+            permitted: [
+                "Small-scale retail shops",
+                "Kiosks",
+                "Home-based businesses",
+                "Local service providers (tailors, barbers, etc.)"
+            ],
+            conditional: [
+                "Restaurants and cafés (limited scale)",
+                "Medical clinics (small scale)",
+                "Offices (ground floor only)"
+            ],
+            prohibited: [
+                "Industrial uses",
+                "Large-scale commercial complexes",
+                "Major infrastructure"
+            ]
+        },
+
+        development: {
+            note: "O-C2 is an overlay — base zone (R1B, R2, R3) regulations apply. One additional floor (+1) may be authorised by OSC for commercial ground floor development.",
+            far: { max: "As per base zone + 1 additional floor for commercial use" },
+            lotSize: { min: "N/A — as per base zone" }
+        },
+
+        building: {
+            maxFloors: "+1 floor above base zone limit (e.g. R3 allows G+2; with O-C2 commercial ground floor, G+3 possible with OSC approval)",
+            setbacks: {
+                front: "0.0 m min along commercial street",
+                arcade: "2.0 m min arcade/gallery required along commercial frontage"
+            },
+            notes: "No fencing allowed along commercial streets in O-C2 without CoK-OSC approval."
+        }
+    },
+
     "C3": {
         fullName: "City Commercial Zone",
         code: "C3",
@@ -918,6 +960,59 @@ const ZONING_KNOWLEDGE_BASE = {
         building: {
             maxFloors: "G (Ground floor only)",
             form: ["N/A"]
+        }
+    },
+
+    // A is the official PDF zone code; A1 kept as legacy key above
+    "A": {
+        fullName: "Agricultural Zone",
+        code: "A",
+        article: "Article 6",
+        table: "Table 6.25",
+        description: "Agricultural Zone (A) protects the viability of agriculture in Kigali. Prevents farmland from being converted to non-farm uses, prevents fragmentation of farms, and protects agricultural producers from non-farm intrusion. Rural development is only allowed after land pooling processes.",
+
+        uses: {
+            permitted: [
+                "Crop farming",
+                "Agro-forestry",
+                "Livestock farming",
+                "Green houses",
+                "Bee keeping",
+                "Fish farming"
+            ],
+            conditional: [
+                "Supporting agricultural uses",
+                "Temporary farm store",
+                "Infrastructure",
+                "Rural villages (for plots larger than 5 ha after land assembly)",
+                "Single family houses (on plots larger than 1 ha, linked to farming activities)",
+                "Small scale agro-processing facilities (on plots not less than 0.5 ha)"
+            ],
+            prohibited: [
+                "All types of industrial uses not linked to agro-processing",
+                "All types of residential uses not linked to farming",
+                "All types of commercial uses not linked to temporary farm store",
+                "All types of public facilities"
+            ],
+            ancillary: [
+                "Storage barns",
+                "Parking",
+                "Store for agricultural equipment",
+                "Cattle sheds"
+            ]
+        },
+
+        development: {
+            far: {
+                max: "0.01 for single family houses (up to 150 m²) on plots above 1 ha; 0.02 for agro-processing (up to 200 m²) on plots above 0.5 ha"
+            },
+            coverage: { maxBuilding: "N/A" }
+        },
+
+        building: {
+            maxFloors: "G (Ground floor only)",
+            setbacks: { front: "1.0 m min", side: "1.0 m min", rear: "1.0 m min" },
+            form: ["Detached farm structures only"]
         }
     },
 
@@ -1552,6 +1647,43 @@ const ZONING_KNOWLEDGE_BASE = {
         }
     },
 
+    // =============================================================================
+    // BUFFER ZONE
+    // =============================================================================
+
+    "B": {
+        fullName: "Buffer Zone",
+        code: "B",
+        article: "Article 6",
+        table: "Table 6.31",
+        description: "The Buffer Zone (B) transposes all overlay buffer areas into the Zoning Plan. It does not contain explicit regulations but references relevant overlay layers (Article 7). It does NOT affect the main use and development quantum of the parcel — the underlying zone regulations still apply. The B zone simply provides limitations on specific uses within the buffer area.",
+
+        uses: {
+            permitted: ["As per relevant buffer overlay (Article 7)"],
+            conditional: ["As per relevant buffer overlay (Article 7)"],
+            prohibited: ["As per relevant buffer overlay (Article 7)"]
+        },
+
+        keyPrinciples: [
+            "Buffer Zone does NOT impact ownership, main zoning designation, or permitted use of the parcel",
+            "Development potential within buffer area is transferred to the developable (non-buffered) part of the parcel",
+            "If a parcel is entirely affected by a buffer, development potential may be transferred to an adjacent parcel (with OSC approval)",
+            "If two or more buffer overlays affect the same area, the stricter constraints prevail",
+            "All developments in B zone require approval by review panel",
+            "Refer to Article 7 — Zoning Overlay Regulations for specific constraints"
+        ],
+
+        development: {
+            note: "Main zone FAR and coverage apply to the non-buffered developable area. No additional construction rights in the buffer area itself.",
+            approvalRequired: "OSC review panel approval required for all developments within buffer areas"
+        },
+
+        building: {
+            maxFloors: "As per underlying base zone",
+            notes: "Buffer zone overlays may include: waterbody buffers (rivers 20m, lakes 50m, streams 10m), steep slope buffers (>30%), wetland buffers, road buffers, and infrastructure protection buffers."
+        }
+    },
+
     // WR kept as alias for backward compatibility
     "WR": {
         fullName: "Waterbody Zone",
@@ -1777,12 +1909,16 @@ function normalizeZoneName(zoneName) {
         'P2-Sport and Eco tourism zone': 'P2',
         'Sports and Eco-Tourism Zone': 'P2',
         'P3A-National Parks zone': 'P3A',
+        'P3-A-National parks zone': 'P3A',
         'National Parks Zone': 'P3A',
         'P3B-Forest zone': 'P3B',
+        'P3-B-Forest zone': 'P3B',
         'Forest Zone': 'P3B',
         'P3C-Steep slopes (> 30%) zone': 'P3C',
+        'P3-C-Steep slopes (> 30%) zone': 'P3C',
         'Steep Slopes Zone': 'P3C',
         'P3D-Natural Conservation zone': 'P3D',
+        'P3-D-Natural conservation zone': 'P3D',
         'Natural Conservation Zone': 'P3D',
         'PA-Public Administration zone': 'PA',
         'Public Administrative and Services Zone': 'PA',
@@ -1797,10 +1933,22 @@ function normalizeZoneName(zoneName) {
         'PF5-Cemetery/ crematoria': 'PF5',
         'Cemetery/Crematoria Zone': 'PF5',
 
+        // Commercial overlay
+        'O-C2-Neighbourhood commercial overlay zone': 'O-C2',
+        'O-C2': 'O-C2',
+        'OC2': 'O-C2',
+        'Neighbourhood Commercial Overlay Zone': 'O-C2',
+
         // Agriculture
-        'A1-Agriculture zone': 'A1',
-        'Agriculture Zone': 'A1',
-        'Agricultural Zone': 'A1',
+        'A-Agricultural zone': 'A',
+        'A1-Agriculture zone': 'A',
+        'Agriculture Zone': 'A',
+        'Agricultural Zone': 'A',
+
+        // Buffer Zone
+        'B-Buffer zone': 'B',
+        'Buffer Zone': 'B',
+        'B': 'B',
 
         // Transport & Utility
         'T-Transportation zone': 'T',
