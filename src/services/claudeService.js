@@ -346,14 +346,13 @@ You have been provided with the complete, authoritative zoning regulations. Use 
             const authZone = getZoneInfo(normalizedCode);
             
             // Add authoritative footer
-            const footer = langConfig.footer;
+            const articleRef = authZone ? `${authZone.article}, ${authZone.table}` : 'Kigali City Zoning Regulations (August 2020)';
             const responseWithFooter = `${aiResponse}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📍 ${footer.location}: ${location.lat.toFixed(4)}°, ${location.lng.toFixed(4)}°
-📋 ${footer.source}: Kigali City Zoning Regulations (August 2020)${authZone ? `, ${authZone.article}, ${authZone.table}` : ''}
-📞 ${footer.contact}: +250789448873
-🌐 Kubaka: https://kubaka.gov.rw/| https://kigalicity.gov.rw`;
+─────────────────────────────────────
+📍 ${location.lat.toFixed(6)}°, ${location.lng.toFixed(6)}°  ·  ${articleRef}
+📞 +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
+🌐 kubaka.gov.rw  ·  kigalicity.gov.rw`;
 
             // Cache the response
             const metadata = {
@@ -420,23 +419,22 @@ Permitted Uses: ${authZone.uses?.permitted?.slice(0, 3).join(', ') || 'Contact O
 ${zoneInfo}
 
 For your specific question about "${question}", please contact:
-📞 City of Kigali OSC: +250789448873
-🌐 Online permits: https://kubaka.gov.rw/
-📋 Source: Kigali City Zoning Regulations (August 2020)`,
-            
+📞 +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
+🌐 kubaka.gov.rw  ·  kigalicity.gov.rw`,
+
             rw: `TerraNebular ntishobora gusubiza neza ubu, ariko dore amakuru y'amategeko aho uri:
 ${zoneInfo}
 
 Kubaza ku "${question}", hamagara:
-📞 Umujyi wa Kigali OSC: +250 788 000 000
-🌐 Uruhushya kuri interineti: https://kubaka.gov.rw/`,
-            
-            fr: ` Zone Agent ne peut pas générer une réponse détaillée pour le moment, mais voici les informations réglementaires pour votre emplacement:
+📞 +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
+🌐 kubaka.gov.rw  ·  kigalicity.gov.rw`,
+
+            fr: `ZoneAgent ne peut pas générer une réponse détaillée pour le moment, mais voici les informations réglementaires pour votre emplacement:
 ${zoneInfo}
 
 Pour votre question sur "${question}", contactez:
-📞 Ville de Kigali OSC: +250789448873
-🌐 Permis en ligne:https://kubaka.gov.rw/`
+📞 +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
+🌐 kubaka.gov.rw  ·  kigalicity.gov.rw`
         };
         
         return fallbacks[language] || fallbacks.en;
