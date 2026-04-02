@@ -350,9 +350,9 @@ You have been provided with the complete, authoritative zoning regulations. Use 
             const responseWithFooter = `${aiResponse}
 
 ─────────────────────────────────────
-📍 ${location.lat.toFixed(6)}°, ${location.lng.toFixed(6)}°  ·  ${articleRef}
-📞 +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
-🌐 kubaka.gov.rw  ·  kigalicity.gov.rw`;
+Location: ${location.lat.toFixed(6)}°, ${location.lng.toFixed(6)}°  ·  ${articleRef}
+Tel: +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
+Web: kubaka.gov.rw  ·  kigalicity.gov.rw`;
 
             // Cache the response
             const metadata = {
@@ -419,22 +419,22 @@ Permitted Uses: ${authZone.uses?.permitted?.slice(0, 3).join(', ') || 'Contact O
 ${zoneInfo}
 
 For your specific question about "${question}", please contact:
-📞 +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
-🌐 kubaka.gov.rw  ·  kigalicity.gov.rw`,
+Tel: +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
+Web: kubaka.gov.rw  ·  kigalicity.gov.rw`,
 
             rw: `TerraNebular ntishobora gusubiza neza ubu, ariko dore amakuru y'amategeko aho uri:
 ${zoneInfo}
 
 Kubaza ku "${question}", hamagara:
-📞 +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
-🌐 kubaka.gov.rw  ·  kigalicity.gov.rw`,
+Tel: +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
+Web: kubaka.gov.rw  ·  kigalicity.gov.rw`,
 
             fr: `ZoneAgent ne peut pas générer une réponse détaillée pour le moment, mais voici les informations réglementaires pour votre emplacement:
 ${zoneInfo}
 
 Pour votre question sur "${question}", contactez:
-📞 +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
-🌐 kubaka.gov.rw  ·  kigalicity.gov.rw`
+Tel: +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
+Web: kubaka.gov.rw  ·  kigalicity.gov.rw`
         };
         
         return fallbacks[language] || fallbacks.en;

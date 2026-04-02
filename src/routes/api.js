@@ -116,10 +116,10 @@ Please try:
 • Selecting a location within Kigali city center
 • Using the "Use My Location" button if you're in Kigali
 
-📞 City of Kigali OSC: +250 789 448 873
-🌐 kigalicity.gov.rw
+Tel: +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
+Web: kubaka.gov.rw  ·  kigalicity.gov.rw
 
-📍 Searched Location: ${latitude.toFixed(4)}°, ${longitude.toFixed(4)}°`,
+Location: ${latitude.toFixed(6)}°, ${longitude.toFixed(6)}°`,
 
                 rw: `Nta makuru y'imiyoborere y'ubutaka yabonetse aha hantu.
 
@@ -129,10 +129,10 @@ Gerageza:
 • Guhitamo ahantu mu mujyi wa Kigali
 • Gukoresha buto "Koresha Aho Ndi" niba uri i Kigali
 
-📞 Umujyi wa Kigali OSC: +250 789 448 873
-🌐 kigalicity.gov.rw
+Tel: +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
+Web: kubaka.gov.rw  ·  kigalicity.gov.rw
 
-📍 Aho washakishije: ${latitude.toFixed(4)}°, ${longitude.toFixed(4)}°`,
+Location: ${latitude.toFixed(6)}°, ${longitude.toFixed(6)}°`,
 
                 fr: `Aucune donnée de zonage trouvée pour cet emplacement.
 
@@ -142,10 +142,10 @@ Veuillez essayer:
 • Sélectionner un emplacement dans le centre-ville de Kigali
 • Utiliser le bouton "Utiliser Ma Position" si vous êtes à Kigali
 
-📞 Ville de Kigali OSC: +250 789 448 873
-🌐 kigalicity.gov.rw
+Tel: +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
+Web: kubaka.gov.rw  ·  kigalicity.gov.rw
 
-📍 Emplacement recherché: ${latitude.toFixed(4)}°, ${longitude.toFixed(4)}°`
+Location: ${latitude.toFixed(6)}°, ${longitude.toFixed(6)}°`
             };
             
             const selectedLanguage = language || 'en';
