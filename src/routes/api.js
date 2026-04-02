@@ -116,7 +116,7 @@ Please try:
 • Selecting a location within Kigali city center
 • Using the "Use My Location" button if you're in Kigali
 
-📞 City of Kigali Planning: +250 788 000 000
+📞 City of Kigali OSC: +250 789 448 873
 🌐 kigalicity.gov.rw
 
 📍 Searched Location: ${latitude.toFixed(4)}°, ${longitude.toFixed(4)}°`,
@@ -129,7 +129,7 @@ Gerageza:
 • Guhitamo ahantu mu mujyi wa Kigali
 • Gukoresha buto "Koresha Aho Ndi" niba uri i Kigali
 
-📞 Umujyi wa Kigali: +250 788 000 000
+📞 Umujyi wa Kigali OSC: +250 789 448 873
 🌐 kigalicity.gov.rw
 
 📍 Aho washakishije: ${latitude.toFixed(4)}°, ${longitude.toFixed(4)}°`,
@@ -142,7 +142,7 @@ Veuillez essayer:
 • Sélectionner un emplacement dans le centre-ville de Kigali
 • Utiliser le bouton "Utiliser Ma Position" si vous êtes à Kigali
 
-📞 Ville de Kigali: +250 788 000 000
+📞 Ville de Kigali OSC: +250 789 448 873
 🌐 kigalicity.gov.rw
 
 📍 Emplacement recherché: ${latitude.toFixed(4)}°, ${longitude.toFixed(4)}°`

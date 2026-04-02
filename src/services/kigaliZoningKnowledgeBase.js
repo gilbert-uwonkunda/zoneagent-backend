@@ -1840,18 +1840,15 @@ const ZONING_KNOWLEDGE_BASE = {
         primary: {
             name: "City of Kigali One Stop Centre (OSC)",
             role: "Construction permits, zoning inquiries, variance requests",
-            phone: "+250 788 000 000",
+            phone: "+250 789 448 873",
+            email: "onestopcenter@kigalicity.gov.rw",
             website: "kigalicity.gov.rw"
         },
         permits: {
-            name: "Irembo Platform",
+            name: "Kubaka Platform",
             role: "Online permit applications",
-            website: "new.irembo.gov.rw"
-        },
-        districts: {
-            Gasabo: "Gasabo District OSC",
-            Nyarugenge: "Nyarugenge District OSC",
-            Kicukiro: "Kicukiro District OSC"
+            website: "kubaka.gov.rw",
+            url: "https://kubaka.gov.rw/"
         }
     }
 };
