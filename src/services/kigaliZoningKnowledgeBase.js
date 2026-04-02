@@ -1846,7 +1846,7 @@ const ZONING_KNOWLEDGE_BASE = {
         permits: {
             name: "Irembo Platform",
             role: "Online permit applications",
-            website: "irembo.gov.rw"
+            website: "new.irembo.gov.rw"
         },
         districts: {
             Gasabo: "Gasabo District OSC",
