@@ -9,6 +9,13 @@ const apiRoutes = require('./routes/api');
 
 const app = express();
 
+// Render (and any PaaS load balancer) terminates TLS and proxies to us, so the
+// socket address is the proxy's, not the client's. Without this, req.ip is the
+// same value for every visitor and express-rate-limit throttles the entire user
+// base against one shared bucket. `1` trusts exactly one proxy hop — `true`
+// would let a client spoof its IP via a forged X-Forwarded-For header.
+app.set('trust proxy', 1);
+
 // Security middleware
 app.use(helmet({
     crossOriginEmbedderPolicy: false,
@@ -74,7 +81,7 @@ app.use((req, res, next) => {
 // Health check route
 app.get('/', (req, res) => {
     res.json({
-        service: 'TerraNebular Backend',
+        service: 'ZoneAgent Backend',
         status: 'running',
         version: '1.0.0',
         timestamp: new Date().toISOString(),

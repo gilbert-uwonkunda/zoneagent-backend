@@ -1,7 +1,7 @@
 {
-  "name": "terranebular-backend",
+  "name": "zoneagent-backend",
   "version": "1.0.0",
-  "description": "Backend API for TerraNebular spatial intelligence application",
+  "description": "Backend API for ZoneAgent spatial intelligence application",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

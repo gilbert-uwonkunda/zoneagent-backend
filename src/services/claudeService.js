@@ -25,36 +25,9 @@ class ClaudeService {
 
         // Language configurations
         this.languages = {
-            en: {
-                name: 'English',
-                instruction: 'Respond in English.',
-                footer: {
-                    location: 'Location',
-                    contact: 'City of Kigali Planning',
-                    moreInfo: 'More info',
-                    source: 'Source'
-                }
-            },
-            rw: {
-                name: 'Kinyarwanda',
-                instruction: 'Subiza mu Kinyarwanda gusa. Koresha amagambo yoroshye yumvikana.',
-                footer: {
-                    location: 'Aho hantu',
-                    contact: 'Umujyi wa Kigali - Imikoreshereze yubutaka ',
-                    moreInfo: 'Amakuru yinyongera',
-                    source: 'Aho amakuru yaturutse'
-                }
-            },
-            fr: {
-                name: 'Français',
-                instruction: 'Répondez entièrement en français.',
-                footer: {
-                    location: 'Emplacement',
-                    contact: 'Planification de la Ville de Kigali',
-                    moreInfo: 'Plus d\'infos',
-                    source: 'Source'
-                }
-            }
+            en: { name: 'English',     instruction: 'Respond in English.' },
+            rw: { name: 'Kinyarwanda', instruction: 'Subiza mu Kinyarwanda gusa. Koresha amagambo yoroshye yumvikana.' },
+            fr: { name: 'Français',    instruction: 'Répondez entièrement en français.' }
         };
     }
 
@@ -182,7 +155,7 @@ PARKING REQUIREMENTS (Article 6.7):
 `;
 
         // Build the full prompt
-        return `You are Zoning Agent, an AUTHORITATIVE spatial intelligence assistant for Kigali, Rwanda.
+        return `You are ZoneAgent, an AUTHORITATIVE spatial intelligence assistant for Kigali, Rwanda.
 
 MISSION: "Zero Trips, Zero Paper"
 Provide definitive answers so citizens don't need to visit government offices. Every response must be legally accurate and citable.
@@ -196,7 +169,9 @@ LOCATION CONTEXT
 • Zone Name: ${zoneData.zone_name}
 ${zoneData.phase ? `• Phase: ${zoneData.phase}` : ''}
 ${nearbyFeatures && nearbyFeatures.length > 0 ? `
-• Nearby Zones: ${nearbyFeatures.slice(0, 3).map(f => `${f.zone_name} (${Math.round(f.distance)}m)`).join(', ')}
+• Nearby Zones: ${nearbyFeatures.slice(0, 3).map(f => (
+    Number.isFinite(f.distance) ? `${f.zone_name} (${Math.round(f.distance)}m)` : f.zone_name
+)).join(', ')}
 ` : ''}
 
 ${regulatoryContext}
@@ -272,7 +247,7 @@ NOW RESPOND TO THE CITIZEN'S QUESTION:`;
         const requestBody = {
             model: this.model,
             max_tokens: this.maxTokens,
-            system: `You are TerraNebular, an authoritative spatial intelligence assistant for Kigali, Rwanda.
+            system: `You are ZoneAgent, an authoritative spatial intelligence assistant for Kigali, Rwanda.
 
 YOUR CORE PRINCIPLES:
 1. AUTHORITATIVE: Every answer cites specific Articles, Tables, and numbers from Kigali City Zoning Regulations (August 2020)
@@ -307,8 +282,25 @@ You have been provided with the complete, authoritative zoning regulations. Use 
 
             const data = await response.json();
             console.log('Claude API response received');
-            
-            return data.content[0].text;
+
+            // A refusal (stop_reason: "refusal") or a non-text leading block makes
+            // data.content[0].text undefined — reading it blindly threw and silently
+            // routed every such response into the generic fallback.
+            if (data.stop_reason === 'refusal') {
+                throw new Error(`Claude declined the request (${data.stop_details?.category || 'unspecified'})`);
+            }
+
+            const text = (data.content || [])
+                .filter(block => block.type === 'text' && block.text)
+                .map(block => block.text)
+                .join('\n')
+                .trim();
+
+            if (!text) {
+                throw new Error(`Claude returned no text content (stop_reason: ${data.stop_reason})`);
+            }
+
+            return text;
 
         } catch (error) {
             console.error('API error:', error.message);
@@ -415,14 +407,14 @@ Permitted Uses: ${authZone.uses?.permitted?.slice(0, 3).join(', ') || 'Contact O
         }
 
         const fallbacks = {
-            en: `TerraNebular is temporarily unable to generate a detailed response, but here is the regulatory information for your location:
+            en: `ZoneAgent is temporarily unable to generate a detailed response, but here is the regulatory information for your location:
 ${zoneInfo}
 
 For your specific question about "${question}", please contact:
 Tel: +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
 Web: kubaka.gov.rw  ·  kigalicity.gov.rw`,
 
-            rw: `TerraNebular ntishobora gusubiza neza ubu, ariko dore amakuru y'amategeko aho uri:
+            rw: `ZoneAgent ntishobora gusubiza neza ubu, ariko dore amakuru y'amategeko aho uri:
 ${zoneInfo}
 
 Kubaza ku "${question}", hamagara:

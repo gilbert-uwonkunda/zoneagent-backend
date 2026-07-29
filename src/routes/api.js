@@ -32,7 +32,7 @@ router.get('/health', (req, res) => {
     res.json({
         status: 'healthy',
         timestamp: new Date().toISOString(),
-        service: 'TerraNebular Backend'
+        service: 'ZoneAgent Backend'
     });
 });
 
@@ -40,13 +40,14 @@ router.get('/health', (req, res) => {
 router.get('/zoning/location', async (req, res) => {
     try {
         const { lat, lng } = req.query;
-        
-        if (!lat || !lng) {
+
+        // `!lat` would also reject the literal string "0"; test for absence.
+        if (lat == null || lat === '' || lng == null || lng === '') {
             return res.status(400).json({
                 error: 'Missing required parameters: lat and lng'
             });
         }
-        
+
         const latitude = parseFloat(lat);
         const longitude = parseFloat(lng);
         
@@ -82,17 +83,19 @@ router.get('/zoning/location', async (req, res) => {
 router.post('/ai/question', claudeLimiter, async (req, res) => {
     try {
         // ✅ FIXED: Extract language from request body
-        const { question, lat, lng, sessionId, language } = req.body;
-        
-        // Log the language for debugging
-        console.log(`🌍 AI Request - Language: ${language || 'en'}, Question: ${question.substring(0, 50)}...`);
-        
-        if (!question || !lat || !lng) {
+        const { question, lat, lng, sessionId, language } = req.body || {};
+
+        // Validate BEFORE touching `question` — logging it first threw a
+        // TypeError on a missing field, which the catch below turned into a
+        // misleading 500 instead of this 400.
+        if (typeof question !== 'string' || !question.trim() || lat == null || lng == null) {
             return res.status(400).json({
                 error: 'Missing required fields: question, lat, lng'
             });
         }
-        
+
+        console.log(`🌍 AI Request - Language: ${language || 'en'}, Question: ${question.substring(0, 50)}...`);
+
         const latitude = parseFloat(lat);
         const longitude = parseFloat(lng);
         
@@ -310,24 +313,26 @@ router.get('/stats', async (req, res) => {
 router.get('/zoning/nearby', async (req, res) => {
     try {
         const { lat, lng, radius = 1000, limit = 5 } = req.query;
-        
-        if (!lat || !lng) {
+
+        if (lat == null || lat === '' || lng == null || lng === '') {
             return res.status(400).json({
                 error: 'Missing required parameters: lat and lng'
             });
         }
-        
+
         const latitude = parseFloat(lat);
         const longitude = parseFloat(lng);
-        const radiusMeters = parseFloat(radius);
-        const limitNum = parseInt(limit);
-        
+        // Fall back to the documented defaults when radius/limit are unparseable,
+        // otherwise NaN is forwarded straight into the ArcGIS query string.
+        const radiusMeters = Number.isFinite(parseFloat(radius)) ? parseFloat(radius) : 1000;
+        const limitNum = Number.isInteger(parseInt(limit, 10)) ? parseInt(limit, 10) : 5;
+
         if (isNaN(latitude) || isNaN(longitude)) {
             return res.status(400).json({
                 error: 'Invalid coordinates'
             });
         }
-        
+
         const nearbyZones = await spatialService.findNearbyZones(
             latitude,
             longitude,

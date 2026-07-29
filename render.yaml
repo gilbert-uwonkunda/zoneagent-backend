@@ -1,0 +1,36 @@
+# Render Blueprint — ZoneAgent backend
+# Dashboard → New → Blueprint → select this repo. Render reads this file and
+# provisions the service; the only manual step is pasting CLAUDE_API_KEY.
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: zoneagent-backend
+    runtime: node
+    plan: free
+    # Frankfurt is Render's closest region to Kigali — lowest latency for users
+    # and for the outbound calls to masterplan.kigalicity.gov.rw.
+    region: frankfurt
+    branch: main
+    # `npm ci` (not `install`) so the build matches package-lock.json exactly.
+    buildCommand: npm ci
+    startCommand: node src/server.js
+    # Render polls this to decide when the instance is live. It also gives the
+    # frontend's warm-up ping a cheap endpoint to hit on the free plan, where the
+    # instance sleeps after ~15 min idle.
+    healthCheckPath: /api/health
+    envVars:
+      # Pin the runtime. Without this Render picks its current default, which can
+      # change under you between deploys.
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      # Widens CORS to any origin when set to "development" — must stay
+      # production here. See the origin allowlist in src/app.js.
+      - key: FRONTEND_URL
+        value: https://zoneagent.live
+      # sync: false = Render prompts for this at deploy time and stores it
+      # encrypted. The value is never committed to the repo.
+      - key: CLAUDE_API_KEY
+        sync: false

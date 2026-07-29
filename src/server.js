@@ -1,6 +1,6 @@
 // src/server.js
 require('dotenv').config();
-console.log('Starting TerraNebular server...');
+console.log('Starting ZoneAgent server...');
 
 const app = require('./app');
 
@@ -32,7 +32,7 @@ async function startServer() {
 
         server = app.listen(PORT, () => {
             console.log(`
-TerraNebular Backend Server Started
+ZoneAgent Backend Server Started
 ==================================
 
 Server:    http://localhost:${PORT}

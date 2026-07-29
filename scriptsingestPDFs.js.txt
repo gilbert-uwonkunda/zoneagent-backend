@@ -105,7 +105,7 @@ async function ingestRFAGuidelines(pdfPath) {
 
 async function runIngestion() {
     console.log('\n========================================');
-    console.log('TERRANEBULAR PDF INGESTION');
+    console.log('ZONEAGENT PDF INGESTION');
     console.log('========================================\n');
     
     try {

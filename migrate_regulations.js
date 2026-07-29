@@ -1,5 +1,5 @@
 // ============================================================================
-// TERRANEBULAR REGULATIONS DATA MIGRATION
+// ZONEAGENT REGULATIONS DATA MIGRATION
 // Populates database with Kigali Master Plan 2050 + RFA Guidelines
 // ============================================================================
 
@@ -844,7 +844,7 @@ async function migrateTreeRequirements() {
 
 async function runMigration() {
     console.log('========================================');
-    console.log('TerraNebular Regulations Migration');
+    console.log('ZoneAgent Regulations Migration');
     console.log('Kigali Master Plan 2050 + RFA Guidelines');
     console.log('========================================\n');
     
