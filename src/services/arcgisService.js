@@ -51,13 +51,17 @@ class ArcGISService {
     // Find the zone at a specific WGS84 coordinate
     async findZoneAtLocation(lat, lng) {
         try {
+            // resultRecordCount here made the service apply it BEFORE the
+            // spatial filter, so it would cap/paginate the raw table scan
+            // and could return exceededTransferLimit with zero features
+            // even when the point's zone genuinely exists — omit it and
+            // just take the first (and only expected) match.
             const data = await queryFeatureService({
                 geometry:     JSON.stringify({ x: lng, y: lat }),
                 geometryType: 'esriGeometryPoint',
                 inSR:         '4326',
                 spatialRel:   'esriSpatialRelIntersects',
-                outFields:    OUT_FIELDS,
-                resultRecordCount: '1'
+                outFields:    OUT_FIELDS
             });
 
             if (!data.features || data.features.length === 0) {
