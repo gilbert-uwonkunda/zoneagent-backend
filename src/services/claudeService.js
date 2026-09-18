@@ -9,7 +9,7 @@ class ClaudeService {
     constructor() {
         this.apiKey = process.env.CLAUDE_API_KEY;
         this.apiUrl = 'https://api.anthropic.com/v1/messages';
-        this.model = 'claude-sonnet-4-6';
+        this.model = 'claude-sonnet-5';
         this.maxTokens = 2500;
 
         // In-memory response cache: key → { response, metadata, expiresAt }
