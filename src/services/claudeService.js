@@ -414,7 +414,7 @@ For your specific question about "${question}", please contact:
 Tel: +250 789 448 873  ·  onestopcenter@kigalicity.gov.rw
 Web: kubaka.gov.rw  ·  kigalicity.gov.rw`,
 
-            rw: `ZoneAgent ntishobora gusubiza neza ubu, ariko dore amakuru y'amategeko aho uri:
+            rw: `ZoneAgent ntishobora gusubiza neza ubu, ariko dore amakuru yaho uri:
 ${zoneInfo}
 
 Kubaza ku "${question}", hamagara:
@@ -432,7 +432,7 @@ Web: kubaka.gov.rw  ·  kigalicity.gov.rw`
         return fallbacks[language] || fallbacks.en;
     }
 
-    // Analytics logging (console only — no DB required)
+    // Analytics
     async logAnalytics(sessionId, question, location, zoneName, responseType, responseLength, userAgent, ipAddress, language) {
         console.log(JSON.stringify({
             event:          'query',
