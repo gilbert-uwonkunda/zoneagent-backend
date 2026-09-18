@@ -25,9 +25,8 @@ const claudeLimiter = rateLimit({
     }
 });
 
-router.use(generalLimiter);
-
-// Health check endpoint
+// Health check endpoint — registered before the rate limiter so Render's
+// frequent polling can never get throttled and misreported as downtime.
 router.get('/health', (req, res) => {
     res.json({
         status: 'healthy',
@@ -35,6 +34,8 @@ router.get('/health', (req, res) => {
         service: 'ZoneAgent Backend'
     });
 });
+
+router.use(generalLimiter);
 
 // Get zoning information for a specific location
 router.get('/zoning/location', async (req, res) => {
