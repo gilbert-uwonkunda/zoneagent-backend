@@ -27,7 +27,15 @@ async function startServer() {
     try {
         console.log('Environment variables loaded:');
         console.log(`- PORT: ${PORT}`);
-        console.log(`- CLAUDE_API_KEY: ${process.env.CLAUDE_API_KEY ? 'Configured' : 'Not configured'}`);
+        // "Configured" above only proves the var is non-empty, not that its
+        // value is the right key — print length + masked ends so a bad
+        // paste (truncation, stray char, stale clipboard value) is visible
+        // without ever logging the full secret.
+        const key = process.env.CLAUDE_API_KEY;
+        console.log(`- CLAUDE_API_KEY: ${key ? 'Configured' : 'Not configured'}`);
+        if (key) {
+            console.log(`  length=${key.length} starts="${key.slice(0, 8)}" ends="${key.slice(-4)}"`);
+        }
         console.log('- Spatial data: Kigali City ArcGIS Enterprise (live)');
 
         server = app.listen(PORT, () => {
